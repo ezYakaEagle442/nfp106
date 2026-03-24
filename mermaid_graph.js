@@ -8,17 +8,62 @@ const path = require('path');
  * Écrit le diagramme dans mermaid_graph.mmd et l'affiche sur la console.
  *
  * Utilisation:
- *   cd C:\github\nfp106
- *   node mermaid_graph.js
+ *   cd C:\github\nfp106s
+ *   sudo apt upgrade nodejs
+ *   node --version
+ *   printenv
  * 
- * npm install -g @mermaid-js/mermaid-cli
+ * https://pptr.dev/next/troubleshooting#running-puppeteer-on-wsl-windows-subsystem-for-linux
+ * ==> pre-req: 
+ * wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+ * sudo apt install -f ./google-chrome-stable_current_amd64.deb
+ * 
+ * https://pptr.dev/troubleshooting
+ * https://pptr.dev/guides/configuration
+ * https://pptr.dev/troubleshooting#could-not-find-expected-browser-locally
+ * PUPPETEER_CACHE_DIR=('/mnt/c/Users/xxx/.cache/puppeteer') npm install puppeteer
+ * PUPPETEER_CACHE_DIR=('/mnt/c/Users/xxx/.cache/puppeteer') node  mermaid_graph.js
+ * ls -al /mnt/c/Users/xxx/.cache/puppeteer
+ * ls -al ~/.cache/puppeteer
+ * ls -al /mnt/c/Users/xxx/AppData/Roaming/npm/node_modules/@mermaid-js/mermaid-cli/node_modules/puppeteer-core/lib/esm/puppeteer/node
+ * https://medium.com/@python-javascript-php-html-css/fixing-could-not-find-chrome-and-cache-path-problems-on-the-server-with-node-js-puppeteer-507990e718cd
+ * 
+ * 
+ * https://github.com/puppeteer/puppeteer/issues/12006
+ * node -i
+ * path.join(os.homedir(), '.cache', 'puppeteer')
+ * 
+ * npx puppeteer browsers install chrome-headless-shell
+ * npx puppeteer browsers install chrome
+ * npx puppeteer --version
+ * npm -g rebuild puppeteer  if you've installed @mermaid-js/mermaid-cli with the -g flag, or npm rebuild puppeteer if you've installed it without the -g flag.
+ * npm install -g @mermaid-js/mermaid-cli ==> -g issue : https://github.com/mermaid-js/mermaid-cli/issues/671
+ * 
+ * node mermaid_graph.js
+ * npm rebuild puppeteer
+ * npm install @mermaid-js/mermaid-cli --force
+ * 
+ * mmdc --version
  * mmdc -i mermaid_graph.mmd -o mermaid_graph.svg
  * mmdc -i mermaid_graph.mmd -o mermaid_graph.png
  * start mermaid_graph.svg
  * 
  */
 
+
+
+// Load cache path from environment variables
+/*
+const CACHE_PATH = process.env.PUPPETEER_CACHE_PATH || '/mnt/c/Users/xxx/.cache/puppeteer';
+process.env.PUPPETEER_CACHE = CACHE_PATH;
+
+module.exports = {
+  cacheDirectory: path.join('/mnt/c/Users/xxx', '.cache', 'puppeteer'),
+};
+*/
+
 const mermaid = `%%{init: {"theme":"default"}}%%
+
 
 graph TD
     A((0,0,0,0)) -- "(0,0,1)" --> B((1,0,1,0))
@@ -42,9 +87,11 @@ graph TD
 
     `;
 
-const outFile = path.join(__dirname, 'nfp106_mermaid.mmd');
+const outFile = path.join(__dirname, 'mermaid_graph.mmd');
 
 try {
+    // console.log('CACHE_PATH:', CACHE_PATH);
+
     fs.writeFileSync(outFile, mermaid, { encoding: 'utf8' });
     console.log('Mermaid diagram generated:', outFile);
     console.log('--- Diagram preview ---');
