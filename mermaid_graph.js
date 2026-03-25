@@ -13,6 +13,17 @@ const path = require('path');
  *   node --version
  *   printenv
  * 
+ * https://nodejs.org/fr/download
+ * 
+ * curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+ * \. "$HOME/.nvm/nvm.sh"
+ * nvm install 24
+ * node -v 
+ * npm -v # 
+ * 
+ * https://github.com/puppeteer/puppeteer/issues/14798
+ * https://github.com/mermaid-js/mermaid-cli/issues/1019
+ * 
  * https://pptr.dev/next/troubleshooting#running-puppeteer-on-wsl-windows-subsystem-for-linux
  * ==> pre-req: 
  * wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
